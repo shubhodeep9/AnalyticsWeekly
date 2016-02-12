@@ -1,0 +1,95 @@
+ <!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body class="grey lighten-4 grey-text text-darken-1 ">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<!--Import jQuery before materialize.js-->
+      
+      <script type="text/javascript" src="/static/js/materialize.min.js"></script>
+<div class="container">
+<h2 class="header center light">User Query Submission</h2><br />
+<form action="" enctype="multipart/form-data" method="post" class="col s12">
+<div class="row">
+    <div class="file-field input-field col s12 m6">
+      <div class="btn">
+        <span>File</span>
+        <input name="file" type="file">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+    <div class="input-field col s12 m6">
+          <input id="email" name="query" type="text" class="validate">
+          <label for="email">Custom Query (optional)</label>
+        </div>
+    </div>
+
+<div class="row">
+<div class="input-field col s12 m6 l3">
+    <select name="select">
+      <option value="" disabled selected>Statistical</option>
+      <option value="Mean">Mean</option>
+      <option value="Median">Median</option>
+      <option value="Variance">Variance</option>
+      <option value="Standard_Deviation">Standard Deviation</option>
+      <option value="Histogram">Histogram</option>
+      <option value="Normalised">Normalised</option>
+      
+    </select>
+  </div>
+  <div class="input-field col s12 m6 l3">
+  <select name="select">
+  <option value="" disabled selected>Filtering</option>
+      <option value="Simple_Random_Sampling">Simple Random Sampling</option>
+      <option value="Fixed_Sampling">Fixed Sampling</option>
+      <option value="Top_k">Top k</option>
+      <option value="Last_k">Last k</option>
+      <option value="Distinct_Values">Distinct Values</option>
+      </select>
+  </div>
+  <div class="input-field col s12 m6 l3">
+  <select name="select">
+  <option value="" disabled selected>Data Organization</option>
+      <option value="Binning">Binning</option>
+      <option value="Shuffling">Shuffling</option>
+      <option value="Sorting">Sorting</option>
+
+      </select>
+  </div>
+  <div class="input-field col s12 m6 l3">
+  <select name="select">
+  <option value="" disabled selected>Machine Learning</option>
+      <option value="Naive_Bayes">Naive Bayes</option>
+      <option value="SVM">SVM</option>
+      <option value="Decision_tree">Decision tree</option>
+      <option value="Text_Classification">Text Classification</option>
+      </select>
+  </div>
+</div>
+<div class="row center">
+
+  <button class="btn waves-effect waves-light" type="submit">Submit
+    <i class="material-icons right">send</i>
+  </button>
+      </div>
+<script type="text/javascript">
+  $('select').material_select();
+</script>
+
+
+  </form>
+  </div>
+
+      
+    </body>
+  </html>

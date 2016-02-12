@@ -9,11 +9,31 @@ from tornado.gen import engine, Task, coroutine
 from motor import MotorClient
 import os
 
-db = MotorClient('mongodb://shubho:deep@ds047865.mongolab.com:47865/analyticsweekly').analyticsweekly
+db = MotorClient().analyticsweekly
 
 class MainHandler(RequestHandler):
+	@removeslash
 	def get(self):
-		self.write('Hello World')
+		if not bool(self.get_secure_cookie("user")):
+			self.redirect('/login')
+		self.render('file.html')
+	@coroutine
+	def post(self):
+		_id = self.get_secure_cookie("user")
+		files = self.request.files['file'][0]
+		_query = self.get_argument("query")
+		_select = self.get_argument("select")
+		fnd = yield db.files.find({'uid':str(_id)}).to_list(None)
+		count = len(fnd)+1
+		extn = os.path.splitext(files['filename'])[1]
+		cname = str(_id) +'_'+str(count)+ extn
+		fh = open("static/uploads/" + cname, 'w')
+		fh.write(files['body'])
+		insert = yield db.files.insert({'uid':str(_id),'file':cname,'query':_query,'methods':_select})
+		self.redirect('/')
+		
+
+
 
 class SignupHandler(RequestHandler):
 	@removeslash
@@ -37,7 +57,10 @@ class SigninHandler(RequestHandler):
 	@removeslash
 	@coroutine
 	def get(self):
-		self.render('login.html')
+		if not bool(self.get_secure_cookie("user")):
+			self.render('index.html')
+		else:
+			self.redirect('/')
 
 	@removeslash
 	@coroutine
@@ -46,8 +69,24 @@ class SigninHandler(RequestHandler):
 		password = self.get_argument('password')
 		user = yield db.Users.find_one({'email':email,'password':password})
 		if bool(user):
-			self.set_secure_cookie('user')
-			
+			self.set_secure_cookie('user', str(user['_id']))
+			self.redirect('/')
+		else:
+			self.redirect('/login')
+	
+class LogoutHandler(RequestHandler):
+	@removeslash
+	def get(self):
+		self.clear_cookie('user')
+		self.redirect("/login")		
+
+
+class AdminHandler(RequestHandler):
+	@removeslash
+	@coroutine
+	def get(self):
+		res = yield db.files.find().to_list(None)
+		self.render('admin.html',res = res)
 
 settings = dict(
 		template_path = os.path.join(os.path.dirname(__file__), "templates"),
@@ -59,7 +98,9 @@ settings = dict(
 application = Application([
 	(r"/", MainHandler),
 	(r"/register", SignupHandler),
-	(r"/login", SigninHandler)
+	(r"/login", SigninHandler),
+	(r"/logout", LogoutHandler),
+	(r"/admin", AdminHandler)
 	], **settings)
 
 #main init

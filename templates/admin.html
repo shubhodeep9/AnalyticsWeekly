@@ -1,0 +1,45 @@
+ <!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body class="grey lighten-4 grey-text text-darken-1 ">
+
+<div class="container">
+<h1 class="header center light">Analytics Weekly</h1>
+<h3 class="header center light">Admin Panel</h3>
+<table>
+        <thead>
+          <tr>
+              <th data-field="id">User Id</th>
+              <th data-field="file">File</th>
+              <th data-field="query">Custom Query</th>
+              <th data-field="Method">Method</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for data in res %}
+          <tr>
+            <td>{{ data['uid'] }}</td>
+            <td><a href="/static/uploads/{{ data['file'] }}" target="_blank">Download</a></td>
+            <td>{{ data['query'] }}</td>
+            <td>{{ data['methods'] }}</td>
+          </tr>
+        {% end %}
+        </tbody>
+      </table>
+  </div>
+
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="/static/js/materialize.min.js"></script>
+    </body>
+  </html>
